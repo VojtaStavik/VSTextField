@@ -70,6 +70,13 @@ class VSTextField: UITextField {
         }
     }
 
+    /**
+    Text without formatting characters (read-only)
+    */
+    var textWithoutFormatting: String? {
+        
+        return pureString as? String
+    }
     
     required init(coder aDecoder: NSCoder) {
         
