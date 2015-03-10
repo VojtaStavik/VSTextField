@@ -1,9 +1,8 @@
 //
 //  VSTextField.swift
-//  Matic
 //
 //  Created by Vojta Stavik on 09/03/15.
-//  Copyright (c) 2015 STRV. All rights reserved.
+//  Copyright (c) 2015 www.STRV.com All rights reserved.
 //
 
 import UIKit
