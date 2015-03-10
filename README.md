@@ -6,5 +6,5 @@ Just place the VSTextField.swift file into your project and replace your current
 
 ```swift
 textField.replacementString = "*" // a string you want to be replaced by a number
-textField.formattingPattern = "***ABC**-*-345-**" // all * will be replaced
+textField.formattingPattern = "***ABC**-*-345-**" // all * will be replaced by a number
 ```
