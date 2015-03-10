@@ -53,7 +53,7 @@ class VSTextField: UITextField {
             
             else {
                 
-                self.maxLenght = 9
+                self.maxLenght = 0
             }
         }
     }
@@ -75,7 +75,12 @@ class VSTextField: UITextField {
     */
     var textWithoutFormatting: String? {
         
-        return pureString as? String
+        if let text = self.text {
+            
+            return makeOnlyDigitsString(text) as? String
+        }
+        
+        return nil
     }
     
     required init(coder aDecoder: NSCoder) {
