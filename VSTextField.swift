@@ -23,12 +23,13 @@ class VSTextField: UITextField {
     var replacementString: NSString = "*"
     
     /**
-    Max lenght of input string. If 0 -> no limit.
+    Max lenght of input string. You don't have to set this if you set formattingPattern.
+    If 0 -> no limit.
     */
     var maxLenght = 0
     
     /**
-    Type of text formatting
+    Type of predefined text formatting. You don't have to set this. (It's more a future feature)
     */
     var formatting : TextFieldFormatting = .Default {
         
