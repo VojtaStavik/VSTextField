@@ -16,6 +16,16 @@ enum TextFieldFormatting {
 
 class VSTextField: UITextField {
 
+    /**
+    Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
+    replacement string would be "#" and user's input would be "123456", final string would look like "12-34-AB-56"
+    */
+    func setFormatting(formattingPattern: NSString, replacementString: NSString) {
+        
+        self.formattingPattern = formattingPattern
+        self.replacementString = replacementString
+    }
+    
     
     /**
     String (usually a char) which will be replaced in formattingPattern by a number
@@ -49,6 +59,12 @@ class VSTextField: UITextField {
     }
     
     
+    /**
+    String with formatting pattern for the text field.
+    */
+    var formattingPattern: NSString = ""
+
+    
     required init(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -65,9 +81,6 @@ class VSTextField: UITextField {
         
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
-    
-    var formattingPattern: NSString = ""
     
     
     // MARK - internal
