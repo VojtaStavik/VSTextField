@@ -2,10 +2,9 @@
 Dead simple drop-in subclass of UITextField with super easy numbers formatting.
 
 ## How to use it?
-Just place the VSTextField file into your project, and replace your current UITextField with it. Then set:
+Just place the VSTextField.swift file into your project and replace your current UITextField with it. Then set:
 
 ```swift
-textField.formattingPattern = "***ABC**-*-345-**"
+textField.replacementString = "*" // a string you want to be replaced by a number
+textField.formattingPattern = "***ABC**-*-345-**" // all * will be replaced
 ```
-
-All * will be replaced with a number. That's all :)
