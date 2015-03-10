@@ -18,7 +18,7 @@ class VSTextField: UITextField {
 
     /**
     Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
-    replacement string would be "#" and user's input would be "123456", final string would look like "12-34-AB-56"
+    replacement string would be "#" and user input would be "123456", final string would look like "12-34-AB-56"
     */
     func setFormatting(formattingPattern: NSString, replacementString: NSString) {
         
@@ -62,7 +62,13 @@ class VSTextField: UITextField {
     /**
     String with formatting pattern for the text field.
     */
-    var formattingPattern: NSString = ""
+    var formattingPattern: NSString = "" {
+        
+        didSet {
+            
+            self.maxLenght = formattingPattern.length
+        }
+    }
 
     
     required init(coder aDecoder: NSCoder) {
@@ -108,7 +114,6 @@ class VSTextField: UITextField {
 
     
     private var pureString: NSString = ""
-    
     
     private func registerForNotifications() {
         
