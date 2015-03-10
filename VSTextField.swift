@@ -32,7 +32,8 @@ class VSTextField: UITextField {
             
             if formatting == .SocialSecurityNumber {
                 
-                self.maxLenght = 11 // 9 digits + 2x "-"
+                self.formattingPattern = "***-**–****"
+                self.maxLenght = self.formattingPattern.length
             }
             
             else {
@@ -61,7 +62,32 @@ class VSTextField: UITextField {
     }
 
     
+    var formattingPattern: NSString = ""
+    
+    
     // MARK - internal
+    
+    private func makeOnlyDigitsString(string: NSString) -> NSString {
+    
+        return (string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet) as! NSArray).componentsJoinedByString("")
+    }
+
+    
+    private func numberOfDigitsInFormattingString(string: NSString) -> Int {
+
+        var number: Int = 0
+        
+        for i in 0...max(0, string.length - 1) {
+            
+            if string.substringWithRange(NSMakeRange(i, 1)) == "*" {
+                
+                number++
+            }
+        }
+        
+        return number
+    }
+
     
     private var pureString: NSString = ""
     
@@ -74,22 +100,34 @@ class VSTextField: UITextField {
     
     func textDidChange() {
         
-        if let textFieldString: NSString = self.text where formatting == .SocialSecurityNumber {
+        if let textFieldString: NSString = self.text where formattingPattern != "" {
             
-            pureString = textFieldString.stringByReplacingOccurrencesOfString("-", withString: "")
-        
+            pureString = makeOnlyDigitsString(textFieldString)
+            
             var finalText = ""
+            var stop = false
             
-            for i in 0...max(0, pureString.length - 1) {
+            var formatterIndex = 0
+            var pureIndex = 0
+            
+            while !stop {
                 
-                if i == 3 || i == 5 {
+                if formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)) != "*" {
                     
-                    finalText = finalText.stringByAppendingString("-")
+                    finalText = finalText.stringByAppendingString(formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)))
                 }
                 
-                if pureString.length > 0 {
+                else if pureString.length > 0 {
                     
-                    finalText = finalText.stringByAppendingString(pureString.substringWithRange(NSMakeRange(i, 1)))
+                    finalText = finalText.stringByAppendingString(pureString.substringWithRange(NSMakeRange(pureIndex, 1)))
+                    pureIndex++
+                }
+                
+                formatterIndex++
+                
+                if formatterIndex >= formattingPattern.length || pureIndex >= pureString.length {
+                    
+                    stop = true
                 }
             }
             
