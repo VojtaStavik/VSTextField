@@ -19,6 +19,11 @@ class VSTextField: UITextField {
 
     
     /**
+    String (usually a char) which will be replaced in formattingPattern by a number
+    */
+    var replacementString: NSString = "*"
+    
+    /**
     Max lenght of input string. If 0 -> no limit.
     */
     var maxLenght = 0
@@ -79,7 +84,7 @@ class VSTextField: UITextField {
         
         for i in 0...max(0, string.length - 1) {
             
-            if string.substringWithRange(NSMakeRange(i, 1)) == "*" {
+            if string.substringWithRange(NSMakeRange(i, 1)) == replacementString {
                 
                 number++
             }
@@ -112,7 +117,7 @@ class VSTextField: UITextField {
             
             while !stop {
                 
-                if formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)) != "*" {
+                if formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)) != replacementString {
                     
                     finalText = finalText.stringByAppendingString(formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)))
                 }
