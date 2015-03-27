@@ -32,11 +32,13 @@ class VSTextField: UITextField {
     */
     var replacementString: NSString = "*"
     
+    
     /**
     Max lenght of input string. You don't have to set this if you set formattingPattern.
     If 0 -> no limit.
     */
     var maxLenght = 0
+    
     
     /**
     Type of predefined text formatting. You don't have to set this. (It's more a future feature)
@@ -48,6 +50,7 @@ class VSTextField: UITextField {
             if formatting == .SocialSecurityNumber {
                 
                 self.formattingPattern = "***-**–****"
+                self.replacementString = "*"
                 self.maxLenght = self.formattingPattern.length
             }
             
@@ -70,6 +73,7 @@ class VSTextField: UITextField {
         }
     }
 
+    
     /**
     Text without formatting characters (read-only)
     */
@@ -77,11 +81,24 @@ class VSTextField: UITextField {
         
         if let text = self.text {
             
-            return makeOnlyDigitsString(text) as? String
+            return VSTextField.makeOnlyDigitsString(text) as? String
         }
         
         return nil
     }
+    
+    
+    override var text: String! {
+        
+        set {
+            
+            super.text = newValue
+            textDidChange()
+        }
+        
+        get { return super.text }
+    }
+    
     
     required init(coder aDecoder: NSCoder) {
         
@@ -100,14 +117,17 @@ class VSTextField: UITextField {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    
-    // MARK - internal
-    
-    private func makeOnlyDigitsString(string: NSString) -> NSString {
-    
-        return (string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet) as! NSArray).componentsJoinedByString("")
-    }
 
+    // MARK: - class methods
+    
+    class func makeOnlyDigitsString(string: NSString) -> NSString {
+        
+        return NSArray(array: string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)).componentsJoinedByString("")
+    }
+    
+    
+    // MARK: - internal
+    
     
     private func numberOfDigitsInFormattingString(string: NSString) -> Int {
 
@@ -135,9 +155,15 @@ class VSTextField: UITextField {
     
     func textDidChange() {
         
-        if let textFieldString: NSString = self.text where formattingPattern != "" {
+        if formatting == .Default {
             
-            pureString = makeOnlyDigitsString(textFieldString)
+            return;
+        }
+        
+        
+        if let textFieldString: NSString = super.text where formattingPattern != "" {
+            
+            pureString = VSTextField.makeOnlyDigitsString(textFieldString)
             
             var finalText = ""
             var stop = false
@@ -166,7 +192,7 @@ class VSTextField: UITextField {
                 }
             }
             
-            self.text = finalText
+            super.text = finalText
         }
         
         
