@@ -10,6 +10,7 @@ import UIKit
 enum TextFieldFormatting {
     
     case SocialSecurityNumber
+    case Custom
     case Default
 }
 
@@ -20,17 +21,17 @@ class VSTextField: UITextField {
     Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
     replacement string would be "#" and user input would be "123456", final string would look like "12-34-AB-56"
     */
-    func setFormatting(formattingPattern: NSString, replacementString: NSString) {
+    func setFormatting(formattingPattern: String, replacementChar: Character) {
         
         self.formattingPattern = formattingPattern
-        self.replacementString = replacementString
+        self.replacementChar = replacementChar
     }
     
     
     /**
-    String (usually a char) which will be replaced in formattingPattern by a number
+    A character which will be replaced in formattingPattern by a number
     */
-    var replacementString: NSString = "*"
+    var replacementChar: Character = "*"
     
     
     /**
@@ -50,8 +51,8 @@ class VSTextField: UITextField {
             if formatting == .SocialSecurityNumber {
                 
                 self.formattingPattern = "***-**–****"
-                self.replacementString = "*"
-                self.maxLenght = self.formattingPattern.length
+                self.replacementChar = "*"
+                self.maxLenght = count(self.formattingPattern)
             }
             
             else {
@@ -65,11 +66,11 @@ class VSTextField: UITextField {
     /**
     String with formatting pattern for the text field.
     */
-    var formattingPattern: NSString = "" {
+    var formattingPattern: String = "" {
         
         didSet {
             
-            self.maxLenght = formattingPattern.length
+            self.maxLenght = count(formattingPattern)
         }
     }
 
@@ -81,7 +82,7 @@ class VSTextField: UITextField {
         
         if let text = self.text {
             
-            return VSTextField.makeOnlyDigitsString(text) as? String
+            return VSTextField.makeOnlyDigitsString(text)
         }
         
         return nil
@@ -120,22 +121,24 @@ class VSTextField: UITextField {
 
     // MARK: - class methods
     
-    class func makeOnlyDigitsString(string: NSString) -> NSString {
+    class func makeOnlyDigitsString(string: String) -> String {
         
-        return NSArray(array: string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)).componentsJoinedByString("")
+        return join("", string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet))
     }
     
     
     // MARK: - internal
     
     
-    private func numberOfDigitsInFormattingString(string: NSString) -> Int {
+    private func numberOfDigitsInFormattingString(string: String) -> Int {
 
         var number: Int = 0
         
-        for i in 0...max(0, string.length - 1) {
+        for i in 0...max(0, count(string) - 1) {
             
-            if string.substringWithRange(NSMakeRange(i, 1)) == replacementString {
+            let range = Range<String.Index>(start: advance(string.startIndex, i), end: advance(string.startIndex, i + 1 ))
+            
+            if string.substringWithRange(range) == String(replacementChar) {
                 
                 number++
             }
@@ -144,8 +147,8 @@ class VSTextField: UITextField {
         return number
     }
 
-    
-    private var pureString: NSString = ""
+
+    private var pureString: String = ""
     
     private func registerForNotifications() {
         
@@ -161,33 +164,37 @@ class VSTextField: UITextField {
         }
         
         
-        if let textFieldString: NSString = super.text where formattingPattern != "" {
+        if let textFieldString = super.text where formattingPattern != "" {
             
             pureString = VSTextField.makeOnlyDigitsString(textFieldString)
             
             var finalText = ""
             var stop = false
             
-            var formatterIndex = 0
-            var pureIndex = 0
+            var formatterIndex = advance(formattingPattern.startIndex, 0)
+            var pureIndex = advance(pureString.startIndex, 0)
             
             while !stop {
                 
-                if formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)) != replacementString {
+                let formattingPatternRange = Range(start: formatterIndex, end: advance(formatterIndex, 1) )
+                
+                if formattingPattern.substringWithRange(formattingPatternRange) != String(replacementChar) {
                     
-                    finalText = finalText.stringByAppendingString(formattingPattern.substringWithRange(NSMakeRange(formatterIndex, 1)))
+                    finalText = finalText.stringByAppendingString(formattingPattern.substringWithRange(formattingPatternRange))
                 }
                 
-                else if pureString.length > 0 {
+                else if count(pureString) > 0 {
                     
-                    finalText = finalText.stringByAppendingString(pureString.substringWithRange(NSMakeRange(pureIndex, 1)))
+                    let pureStringRange = Range(start: pureIndex, end: advance(pureIndex, 1))
+                    
+                    finalText = finalText.stringByAppendingString(pureString.substringWithRange(pureStringRange))
                     pureIndex++
                 }
                 
                 formatterIndex++
                 
-                if formatterIndex >= formattingPattern.length || pureIndex >= pureString.length {
-                    
+                if formatterIndex >= formattingPattern.endIndex || pureIndex >= pureString.endIndex {
+
                     stop = true
                 }
             }
