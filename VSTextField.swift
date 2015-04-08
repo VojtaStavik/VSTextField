@@ -70,6 +70,7 @@ class VSTextField: UITextField {
         didSet {
             
             self.maxLenght = count(formattingPattern)
+            self.formatting = .Custom
         }
     }
 
