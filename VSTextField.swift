@@ -163,13 +163,13 @@ class VSTextField: UITextField {
         
         if let textFieldString = super.text where formattingPattern != "" {
             
-            let workingString = VSTextField.makeOnlyDigitsString(textFieldString)
+            let tempString = VSTextField.makeOnlyDigitsString(textFieldString)
             
             var finalText = ""
             var stop = false
             
             var formatterIndex = formattingPattern.startIndex
-            var pureIndex = workingString.startIndex
+            var tempIndex = tempString.startIndex
             
             while !stop {
                 
@@ -180,17 +180,17 @@ class VSTextField: UITextField {
                     finalText = finalText.stringByAppendingString(formattingPattern.substringWithRange(formattingPatternRange))
                 }
                 
-                else if count(workingString) > 0 {
+                else if count(tempString) > 0 {
                     
-                    let pureStringRange = Range(start: pureIndex, end: advance(pureIndex, 1))
+                    let pureStringRange = Range(start: tempIndex, end: advance(tempIndex, 1))
                     
-                    finalText = finalText.stringByAppendingString(workingString.substringWithRange(pureStringRange))
-                    pureIndex++
+                    finalText = finalText.stringByAppendingString(tempString.substringWithRange(pureStringRange))
+                    tempIndex++
                 }
                 
                 formatterIndex++
                 
-                if formatterIndex >= formattingPattern.endIndex || pureIndex >= workingString.endIndex {
+                if formatterIndex >= formattingPattern.endIndex || tempIndex >= tempString.endIndex {
 
                     stop = true
                 }
