@@ -52,7 +52,6 @@ class VSTextField: UITextField {
                 
                 self.formattingPattern = "***-**–****"
                 self.replacementChar = "*"
-                self.maxLenght = count(self.formattingPattern)
             }
             
             else {
@@ -94,7 +93,7 @@ class VSTextField: UITextField {
         set {
             
             super.text = newValue
-            textDidChange()
+            textDidChange() // format string properly even when it's set programatically
         }
         
         get { return super.text }
@@ -127,8 +126,8 @@ class VSTextField: UITextField {
     }
     
     
-    // MARK: - internal
     
+    // MARK: - internal
     
     private func numberOfDigitsInFormattingString(string: String) -> Int {
 
@@ -148,8 +147,6 @@ class VSTextField: UITextField {
     }
 
 
-    private var pureString: String = ""
-    
     private func registerForNotifications() {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "textDidChange", name: "UITextFieldTextDidChangeNotification", object: self)
@@ -166,13 +163,13 @@ class VSTextField: UITextField {
         
         if let textFieldString = super.text where formattingPattern != "" {
             
-            pureString = VSTextField.makeOnlyDigitsString(textFieldString)
+            let workingString = VSTextField.makeOnlyDigitsString(textFieldString)
             
             var finalText = ""
             var stop = false
             
-            var formatterIndex = advance(formattingPattern.startIndex, 0)
-            var pureIndex = advance(pureString.startIndex, 0)
+            var formatterIndex = formattingPattern.startIndex
+            var pureIndex = workingString.startIndex
             
             while !stop {
                 
@@ -183,17 +180,17 @@ class VSTextField: UITextField {
                     finalText = finalText.stringByAppendingString(formattingPattern.substringWithRange(formattingPatternRange))
                 }
                 
-                else if count(pureString) > 0 {
+                else if count(workingString) > 0 {
                     
                     let pureStringRange = Range(start: pureIndex, end: advance(pureIndex, 1))
                     
-                    finalText = finalText.stringByAppendingString(pureString.substringWithRange(pureStringRange))
+                    finalText = finalText.stringByAppendingString(workingString.substringWithRange(pureStringRange))
                     pureIndex++
                 }
                 
                 formatterIndex++
                 
-                if formatterIndex >= formattingPattern.endIndex || pureIndex >= pureString.endIndex {
+                if formatterIndex >= formattingPattern.endIndex || pureIndex >= workingString.endIndex {
 
                     stop = true
                 }
