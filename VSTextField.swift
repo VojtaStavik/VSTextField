@@ -104,7 +104,7 @@ class VSTextField: UITextField {
         set {
             
             super.text = newValue
-        //    textDidChange() // format string properly even when it's set programatically
+            textDidChange() // format string properly even when it's set programatically
         }
         
         get { return super.text }
@@ -171,6 +171,12 @@ class VSTextField: UITextField {
         if count(text) > count(_textWithoutSecureBullets) {
             
             currentTextForFormatting = _textWithoutSecureBullets + text.substringFromIndex(advance(text.startIndex, count(_textWithoutSecureBullets)))
+        }
+        
+        else if count(text) == 0 {
+         
+            _textWithoutSecureBullets = ""
+            currentTextForFormatting = ""
         }
         
         else {
