@@ -163,8 +163,6 @@ class VSTextField: UITextField {
     
     func textDidChange() {
         
-        log.message("text did change")
-        
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
         
@@ -248,7 +246,5 @@ class VSTextField: UITextField {
                 _textWithoutSecureBullets = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, maxLenght))
             }
         }
-        
-        log.message("final text: \(self.text) \n\n")
     }
 }
