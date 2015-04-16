@@ -107,7 +107,7 @@ class VSTextField: UITextField {
             textDidChange() // format string properly even when it's set programatically
         }
         
-        get { return super.text }
+        get { return finalStringWithoutFormatting }
     }
     
     
