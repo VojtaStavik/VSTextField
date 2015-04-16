@@ -166,12 +166,12 @@ class VSTextField: UITextField {
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
         
-        if count(text) > count(_textWithoutSecureBullets) {
+        if count(super.text) > count(_textWithoutSecureBullets) {
             
-            currentTextForFormatting = _textWithoutSecureBullets + text.substringFromIndex(advance(text.startIndex, count(_textWithoutSecureBullets)))
+            currentTextForFormatting = _textWithoutSecureBullets + super.text.substringFromIndex(advance(text.startIndex, count(_textWithoutSecureBullets)))
         }
         
-        else if count(text) == 0 {
+        else if count(super.text) == 0 {
          
             _textWithoutSecureBullets = ""
             currentTextForFormatting = ""
@@ -179,7 +179,7 @@ class VSTextField: UITextField {
         
         else {
             
-            currentTextForFormatting = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, count(text)))
+            currentTextForFormatting = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, count(super.text)))
         }
         
         
