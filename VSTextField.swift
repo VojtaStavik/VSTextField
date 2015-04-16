@@ -168,7 +168,7 @@ class VSTextField: UITextField {
         
         if count(super.text) > count(_textWithoutSecureBullets) {
             
-            currentTextForFormatting = _textWithoutSecureBullets + super.text.substringFromIndex(advance(text.startIndex, count(_textWithoutSecureBullets)))
+            currentTextForFormatting = _textWithoutSecureBullets + super.text.substringFromIndex(advance(super.text.startIndex, count(_textWithoutSecureBullets)))
         }
         
         else if count(super.text) == 0 {
