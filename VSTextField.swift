@@ -41,10 +41,10 @@ class VSTextField: UITextField {
     
     
     /**
-    Max lenght of input string. You don't have to set this if you set formattingPattern.
+    Max length of input string. You don't have to set this if you set formattingPattern.
     If 0 -> no limit.
     */
-    var maxLenght = 0
+    var maxLength = 0
     
     
     /**
@@ -62,7 +62,7 @@ class VSTextField: UITextField {
             
             else {
                 
-                self.maxLenght = 0
+                self.maxLength = 0
             }
         }
     }
@@ -75,7 +75,7 @@ class VSTextField: UITextField {
         
         didSet {
             
-            self.maxLenght = count(formattingPattern)
+            self.maxLength = count(formattingPattern)
             self.formatting = .Custom
         }
     }
@@ -241,12 +241,12 @@ class VSTextField: UITextField {
         }
         
         // Let's check if we have additional max length restrictions
-        if maxLenght > 0 {
+        if maxLength > 0 {
             
-            if count(text) > maxLenght {
+            if count(text) > maxLength {
                 
-                super.text = text.substringToIndex(advance(text.startIndex, maxLenght))
-                _textWithoutSecureBullets = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, maxLenght))
+                super.text = text.substringToIndex(advance(text.startIndex, maxLength))
+                _textWithoutSecureBullets = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, maxLength))
             }
         }
     }
