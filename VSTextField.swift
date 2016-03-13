@@ -10,17 +10,18 @@ import UIKit
 enum TextFieldFormatting {
     
     case SocialSecurityNumber
+    case PhoneNumber
     case Custom
     case NoFormatting
 }
 
 
 class VSTextField: UITextField {
-
+    
     /**
-    Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
-    replacement string would be "#" and user input would be "123456", final string would look like "12-34-AB-56"
-    */
+     Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
+     replacement string would be "#" and user input would be "123456", final string would look like "12-34-AB-56"
+     */
     func setFormatting(formattingPattern: String, replacementChar: Character) {
         
         self.formattingPattern = formattingPattern
@@ -29,27 +30,27 @@ class VSTextField: UITextField {
     
     
     /**
-    A character which will be replaced in formattingPattern by a number
-    */
+     A character which will be replaced in formattingPattern by a number
+     */
     var replacementChar: Character = "*"
-
+    
     
     /**
-    A character which will be replaced in formattingPattern by a number
-    */
+     A character which will be replaced in formattingPattern by a number
+     */
     var secureTextReplacementChar: Character = "\u{25cf}"
     
     
     /**
-    Max length of input string. You don't have to set this if you set formattingPattern.
-    If 0 -> no limit.
-    */
+     Max length of input string. You don't have to set this if you set formattingPattern.
+     If 0 -> no limit.
+     */
     var maxLength = 0
     
     
     /**
-    Type of predefined text formatting. (You don't have to set this. It's more a future feature)
-    */
+     Type of predefined text formatting. (You don't have to set this. It's more a future feature)
+     */
     var formatting : TextFieldFormatting = .NoFormatting {
         
         didSet {
@@ -59,7 +60,13 @@ class VSTextField: UITextField {
                 self.formattingPattern = "***-**–****"
                 self.replacementChar = "*"
             }
-            
+                
+            else if formatting == .PhoneNumber
+            {
+                self.formattingPattern = "***-***–****"
+                self.replacementChar = "*"
+            }
+                
             else {
                 
                 self.maxLength = 0
@@ -69,21 +76,21 @@ class VSTextField: UITextField {
     
     
     /**
-    String with formatting pattern for the text field.
-    */
+     String with formatting pattern for the text field.
+     */
     var formattingPattern: String = "" {
         
         didSet {
             
-            self.maxLength = count(formattingPattern)
+            self.maxLength = formattingPattern.characters.count
             self.formatting = .Custom
         }
     }
-
+    
     
     /**
-    Provides secure text entry but KEEPS formatting. All digits are replaced with the bullet character \u{25cf} .
-    */
+     Provides secure text entry but KEEPS formatting. All digits are replaced with the bullet character \u{25cf} .
+     */
     var formatedSecureTextEntry: Bool {
         
         set {
@@ -114,7 +121,7 @@ class VSTextField: UITextField {
     }
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
         registerForNotifications()
@@ -132,8 +139,8 @@ class VSTextField: UITextField {
     }
     
     /**
-    Final text without formatting characters (read-only)
-    */
+     Final text without formatting characters (read-only)
+     */
     var finalStringWithoutFormatting : String {
         
         return VSTextField.makeOnlyDigitsString(_textWithoutSecureBullets)
@@ -144,7 +151,9 @@ class VSTextField: UITextField {
     
     class func makeOnlyDigitsString(string: String) -> String {
         
-        return join("", string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet))
+        let stringArray = string.componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet().invertedSet)
+        let allNumbers = stringArray.joinWithSeparator("")
+        return allNumbers
     }
     
     
@@ -169,24 +178,23 @@ class VSTextField: UITextField {
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
         
-        if count(super.text) > count(_textWithoutSecureBullets) {
+        if super.text?.characters.count > _textWithoutSecureBullets.characters.count {
             
-            currentTextForFormatting = _textWithoutSecureBullets + super.text.substringFromIndex(advance(super.text.startIndex, count(_textWithoutSecureBullets)))
+            currentTextForFormatting = _textWithoutSecureBullets + super.text!.substringFromIndex(super.text!.startIndex.advancedBy(_textWithoutSecureBullets.characters.count))
         }
-        
-        else if count(super.text) == 0 {
-         
+            
+        else if super.text?.characters.count == 0 {
+            
             _textWithoutSecureBullets = ""
             currentTextForFormatting = ""
         }
-        
+            
         else {
             
-            currentTextForFormatting = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, count(super.text)))
+            currentTextForFormatting = _textWithoutSecureBullets.substringToIndex(_textWithoutSecureBullets.startIndex.advancedBy(super.text!.characters.count))
         }
         
-        
-        if formatting != .NoFormatting && count(currentTextForFormatting) > 0 && count(formattingPattern) > 0 {
+        if formatting != .NoFormatting && currentTextForFormatting.characters.count > 0 && formattingPattern.characters.count > 0 {
             
             let tempString = VSTextField.makeOnlyDigitsString(currentTextForFormatting)
             
@@ -200,7 +208,7 @@ class VSTextField: UITextField {
             
             while !stop {
                 
-                let formattingPatternRange = Range(start: formatterIndex, end: advance(formatterIndex, 1) )
+                let formattingPatternRange = Range(start: formatterIndex, end: formatterIndex.advancedBy(1))
                 
                 if formattingPattern.substringWithRange(formattingPatternRange) != String(replacementChar) {
                     
@@ -208,18 +216,18 @@ class VSTextField: UITextField {
                     finalSecureText = finalSecureText.stringByAppendingString(formattingPattern.substringWithRange(formattingPatternRange))
                 }
                     
-                else if count(tempString) > 0 {
+                else if tempString.characters.count > 0 {
                     
-                    let pureStringRange = Range(start: tempIndex, end: advance(tempIndex, 1))
+                    let pureStringRange = Range(start: tempIndex, end: tempIndex.advancedBy(1))
                     
                     finalText = finalText.stringByAppendingString(tempString.substringWithRange(pureStringRange))
                     
                     // we want the last number to be visible
-                    if advance(tempIndex, 1) == tempString.endIndex {
+                    if tempIndex.advancedBy(1) == tempString.endIndex {
                         
                         finalSecureText = finalSecureText.stringByAppendingString(tempString.substringWithRange(pureStringRange))
                     }
-                    
+                        
                     else {
                         
                         finalSecureText = finalSecureText.stringByAppendingString(String(secureTextReplacementChar))
@@ -243,10 +251,10 @@ class VSTextField: UITextField {
         // Let's check if we have additional max length restrictions
         if maxLength > 0 {
             
-            if count(text) > maxLength {
+            if text.characters.count > maxLength {
                 
-                super.text = text.substringToIndex(advance(text.startIndex, maxLength))
-                _textWithoutSecureBullets = _textWithoutSecureBullets.substringToIndex(advance(_textWithoutSecureBullets.startIndex, maxLength))
+                super.text = text.substringToIndex(text.startIndex.advancedBy(maxLength))
+                _textWithoutSecureBullets = _textWithoutSecureBullets.substringToIndex(_textWithoutSecureBullets.startIndex.advancedBy(maxLength))
             }
         }
     }
