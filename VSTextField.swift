@@ -169,7 +169,7 @@ class VSTextField: UITextField {
     
     private func registerForNotifications() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "textDidChange", name: "UITextFieldTextDidChangeNotification", object: self)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VSTextField.textDidChange), name: "UITextFieldTextDidChangeNotification", object: self)
     }
     
     
@@ -208,7 +208,7 @@ class VSTextField: UITextField {
             
             while !stop {
                 
-                let formattingPatternRange = Range(start: formatterIndex, end: formatterIndex.advancedBy(1))
+                let formattingPatternRange = formatterIndex ..< formatterIndex.advancedBy(1)
                 
                 if formattingPattern.substringWithRange(formattingPatternRange) != String(replacementChar) {
                     
@@ -218,7 +218,7 @@ class VSTextField: UITextField {
                     
                 else if tempString.characters.count > 0 {
                     
-                    let pureStringRange = Range(start: tempIndex, end: tempIndex.advancedBy(1))
+                    let pureStringRange = tempIndex ..< tempIndex.advancedBy(1)
                     
                     finalText = finalText.stringByAppendingString(tempString.substringWithRange(pureStringRange))
                     
@@ -233,10 +233,10 @@ class VSTextField: UITextField {
                         finalSecureText = finalSecureText.stringByAppendingString(String(secureTextReplacementChar))
                     }
                     
-                    tempIndex++
+                    tempIndex = tempIndex.successor()
                 }
                 
-                formatterIndex++
+                formatterIndex = formatterIndex.successor()
                 
                 if formatterIndex >= formattingPattern.endIndex || tempIndex >= tempString.endIndex {
                     
