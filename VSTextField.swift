@@ -22,26 +22,6 @@
 //  THE SOFTWARE.
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l < r
-    case (nil, _?):
-        return true
-    default:
-        return false
-    }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l > r
-    default:
-        return rhs < lhs
-    }
-}
-
 
 enum TextFieldFormatting {
     case socialSecurityNumber
@@ -129,7 +109,14 @@ class VSTextField: UITextField {
         }
         
         get {
-            return formatting == .noFormatting ? super.text : finalStringWithoutFormatting
+            if case .noFormatting = formatting {
+                return super.text
+            } else {
+                // Because the UIControl target action is called before NSNotificaion (from which we fire our custom formatting), we need to 
+                // force update finalStringWithoutFormatting to get the latest text. Otherwise, the last character would be missing.
+                textDidChange()
+                return finalStringWithoutFormatting
+            }
         }
     }
     
@@ -239,3 +226,28 @@ class VSTextField: UITextField {
         }
     }
 }
+
+
+// Helpers
+
+fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
+}
+
+fileprivate func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l > r
+    default:
+        return rhs < lhs
+    }
+}
+
+
