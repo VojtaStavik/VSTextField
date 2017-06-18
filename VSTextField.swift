@@ -77,17 +77,14 @@ class VSTextField: UITextField {
             case .socialSecurityNumber:
                 self.formattingPattern = "***-**–****"
                 self.replacementChar = "*"
-                self.isHexadecimal = false
                 
             case .phoneNumber:
                 self.formattingPattern = "***-***–****"
                 self.replacementChar = "*"
-                self.isHexadecimal = false
                 
             case .uuid:
                 self.formattingPattern = "********-****-****-****-************"
                 self.replacementChar = "*"
-                self.isHexadecimal = true
                 
             default:
                 self.maxLength = 0
@@ -184,7 +181,7 @@ class VSTextField: UITextField {
         }
         
         if formatting != .noFormatting && currentTextForFormatting.characters.count > 0 && formattingPattern.characters.count > 0 {
-            let tempString = currentTextForFormatting.keepOnlyDigits(isHexadecimal)
+            let tempString = currentTextForFormatting.keepOnlyDigits(isHexadecimal: isHexadecimal)
             
             var finalText = ""
             var finalSecureText = ""
