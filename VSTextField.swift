@@ -3,6 +3,8 @@
 //  Created by Vojta Stavik
 //  Copyright (c) 2016 www.vojtastavik.com All rights reserved.
 
+//  Modified by Ron Lisle June 2017 to support UUID hex entry
+
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
 //  in the Software without restriction, including without limitation the rights
@@ -24,6 +26,7 @@
 import UIKit
 
 enum TextFieldFormatting {
+    case uuid
     case socialSecurityNumber
     case phoneNumber
     case custom
@@ -50,6 +53,13 @@ class VSTextField: UITextField {
      A character which will be replaced in formattingPattern by a number
      */
     var secureTextReplacementChar: Character = "\u{25cf}"
+
+    /**
+     True if input number is hexadecimal eg. UUID
+     */
+    var isHexadecimal: Bool {
+        return formatting == .uuid
+    }
     
     /**
      Max length of input string. You don't have to set this if you set formattingPattern.
@@ -70,6 +80,10 @@ class VSTextField: UITextField {
                 
             case .phoneNumber:
                 self.formattingPattern = "***-***–****"
+                self.replacementChar = "*"
+                
+            case .uuid:
+                self.formattingPattern = "********-****-****-****-************"
                 self.replacementChar = "*"
                 
             default:
@@ -138,17 +152,9 @@ class VSTextField: UITextField {
      Final text without formatting characters (read-only)
      */
     var finalStringWithoutFormatting : String {
-        return VSTextField.makeOnlyDigitsString(_textWithoutSecureBullets)
+        return _textWithoutSecureBullets.keepOnlyDigits(isHexadecimal: isHexadecimal)
     }
-    
-    
-    // MARK: - class methods
-    class func makeOnlyDigitsString(_ string: String) -> String {
-        let stringArray = string.components(separatedBy: CharacterSet.decimalDigits.inverted)
-        let allNumbers = stringArray.joined(separator: "")
-        return allNumbers
-    }
-    
+
     // MARK: - INTERNAL
     fileprivate var _formatedSecureTextEntry = false
     
@@ -175,7 +181,7 @@ class VSTextField: UITextField {
         }
         
         if formatting != .noFormatting && currentTextForFormatting.characters.count > 0 && formattingPattern.characters.count > 0 {
-            let tempString = VSTextField.makeOnlyDigitsString(currentTextForFormatting)
+            let tempString = currentTextForFormatting.keepOnlyDigits(isHexadecimal: isHexadecimal)
             
             var finalText = ""
             var finalSecureText = ""
@@ -224,6 +230,19 @@ class VSTextField: UITextField {
                 _textWithoutSecureBullets = _textWithoutSecureBullets.substring(to: _textWithoutSecureBullets.characters.index(_textWithoutSecureBullets.startIndex, offsetBy: maxLength))
             }
         }
+    }
+}
+
+
+extension String {
+
+    func keepOnlyDigits(isHexadecimal: Bool) -> String {
+        let ucString = self.uppercased()
+        let validCharacters = isHexadecimal ? "0123456789ABCDEF" : "0123456789"
+        let characterSet: CharacterSet = CharacterSet(charactersIn: validCharacters)
+        let stringArray = ucString.components(separatedBy: characterSet.inverted)
+        let allNumbers = stringArray.joined(separator: "")
+        return allNumbers
     }
 }
 
