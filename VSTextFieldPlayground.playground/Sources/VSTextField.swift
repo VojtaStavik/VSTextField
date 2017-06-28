@@ -25,7 +25,7 @@
 
 import UIKit
 
-public enum TextFieldFormatting {
+enum TextFieldFormatting {
     case uuid
     case socialSecurityNumber
     case phoneNumber
@@ -33,13 +33,13 @@ public enum TextFieldFormatting {
     case noFormatting
 }
 
-public class VSTextField: UITextField {
+class VSTextField: UITextField {
     
     /**
      Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
      replacement string would be "#" and user input would be "123456", final string would look like "12-34-AB-56"
      */
-    public func setFormatting(_ formattingPattern: String, replacementChar: Character) {
+    func setFormatting(_ formattingPattern: String, replacementChar: Character) {
         self.formattingPattern = formattingPattern
         self.replacementChar = replacementChar
     }
@@ -47,17 +47,17 @@ public class VSTextField: UITextField {
     /**
      A character which will be replaced in formattingPattern by a number
      */
-    public var replacementChar: Character = "*"
+    var replacementChar: Character = "*"
     
     /**
      A character which will be replaced in formattingPattern by a number
      */
-    public var secureTextReplacementChar: Character = "\u{25cf}"
+    var secureTextReplacementChar: Character = "\u{25cf}"
 
     /**
      True if input number is hexadecimal eg. UUID
      */
-    public var isHexadecimal: Bool {
+    var isHexadecimal: Bool {
         return formatting == .uuid
     }
     
@@ -65,12 +65,12 @@ public class VSTextField: UITextField {
      Max length of input string. You don't have to set this if you set formattingPattern.
      If 0 -> no limit.
      */
-    public var maxLength = 0
+    var maxLength = 0
     
     /**
      Type of predefined text formatting. (You don't have to set this. It's more a future feature)
      */
-    public var formatting : TextFieldFormatting = .noFormatting {
+    var formatting : TextFieldFormatting = .noFormatting {
         didSet {
             switch formatting {
                 
@@ -95,7 +95,7 @@ public class VSTextField: UITextField {
     /**
      String with formatting pattern for the text field.
      */
-    public var formattingPattern: String = "" {
+    var formattingPattern: String = "" {
         didSet {
             self.maxLength = formattingPattern.characters.count
             self.formatting = .custom
@@ -105,7 +105,7 @@ public class VSTextField: UITextField {
     /**
      Provides secure text entry but KEEPS formatting. All digits are replaced with the bullet character \u{25cf} .
      */
-    public var formatedSecureTextEntry: Bool {
+    var formatedSecureTextEntry: Bool {
         set {
             _formatedSecureTextEntry = newValue
             super.isSecureTextEntry = false
@@ -116,7 +116,7 @@ public class VSTextField: UITextField {
         }
     }
     
-    override public var text: String! {
+    override var text: String! {
         set {
             super.text = newValue
             textDidChange() // format string properly even when it's set programatically
@@ -134,7 +134,7 @@ public class VSTextField: UITextField {
         }
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         registerForNotifications()
     }
@@ -151,7 +151,7 @@ public class VSTextField: UITextField {
     /**
      Final text without formatting characters (read-only)
      */
-    public var finalStringWithoutFormatting : String {
+    var finalStringWithoutFormatting : String {
         return _textWithoutSecureBullets.keepOnlyDigits(isHexadecimal: isHexadecimal)
     }
 
@@ -166,7 +166,7 @@ public class VSTextField: UITextField {
         NotificationCenter.default.addObserver(self, selector: #selector(VSTextField.textDidChange), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"), object: self)
     }
     
-    @objc public func textDidChange() {
+    func textDidChange() {
         
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
