@@ -25,7 +25,7 @@
 
 import UIKit
 
-enum TextFieldFormatting {
+public enum TextFieldFormatting {
     case uuid
     case socialSecurityNumber
     case phoneNumber
@@ -33,13 +33,13 @@ enum TextFieldFormatting {
     case noFormatting
 }
 
-class VSTextField: UITextField {
+public class VSTextField: UITextField {
     
     /**
      Set a formatting pattern for a number and define a replacement string. For example: If formattingPattern would be "##-##-AB-##" and
      replacement string would be "#" and user input would be "123456", final string would look like "12-34-AB-56"
      */
-    func setFormatting(_ formattingPattern: String, replacementChar: Character) {
+    public func setFormatting(_ formattingPattern: String, replacementChar: Character) {
         self.formattingPattern = formattingPattern
         self.replacementChar = replacementChar
     }
@@ -47,17 +47,17 @@ class VSTextField: UITextField {
     /**
      A character which will be replaced in formattingPattern by a number
      */
-    var replacementChar: Character = "*"
+    public var replacementChar: Character = "*"
     
     /**
      A character which will be replaced in formattingPattern by a number
      */
-    var secureTextReplacementChar: Character = "\u{25cf}"
+    public var secureTextReplacementChar: Character = "\u{25cf}"
 
     /**
      True if input number is hexadecimal eg. UUID
      */
-    var isHexadecimal: Bool {
+    public var isHexadecimal: Bool {
         return formatting == .uuid
     }
     
@@ -65,12 +65,12 @@ class VSTextField: UITextField {
      Max length of input string. You don't have to set this if you set formattingPattern.
      If 0 -> no limit.
      */
-    var maxLength = 0
+    public var maxLength = 0
     
     /**
      Type of predefined text formatting. (You don't have to set this. It's more a future feature)
      */
-    var formatting : TextFieldFormatting = .noFormatting {
+    public var formatting : TextFieldFormatting = .noFormatting {
         didSet {
             switch formatting {
                 
@@ -95,7 +95,7 @@ class VSTextField: UITextField {
     /**
      String with formatting pattern for the text field.
      */
-    var formattingPattern: String = "" {
+    public var formattingPattern: String = "" {
         didSet {
             self.maxLength = formattingPattern.characters.count
             self.formatting = .custom
@@ -105,7 +105,7 @@ class VSTextField: UITextField {
     /**
      Provides secure text entry but KEEPS formatting. All digits are replaced with the bullet character \u{25cf} .
      */
-    var formatedSecureTextEntry: Bool {
+    public var formatedSecureTextEntry: Bool {
         set {
             _formatedSecureTextEntry = newValue
             super.isSecureTextEntry = false
@@ -116,7 +116,7 @@ class VSTextField: UITextField {
         }
     }
     
-    override var text: String! {
+    override public var text: String! {
         set {
             super.text = newValue
             textDidChange() // format string properly even when it's set programatically
@@ -134,7 +134,7 @@ class VSTextField: UITextField {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         registerForNotifications()
     }
@@ -151,7 +151,7 @@ class VSTextField: UITextField {
     /**
      Final text without formatting characters (read-only)
      */
-    var finalStringWithoutFormatting : String {
+    public var finalStringWithoutFormatting : String {
         return _textWithoutSecureBullets.keepOnlyDigits(isHexadecimal: isHexadecimal)
     }
 
@@ -166,7 +166,7 @@ class VSTextField: UITextField {
         NotificationCenter.default.addObserver(self, selector: #selector(VSTextField.textDidChange), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"), object: self)
     }
     
-    func textDidChange() {
+    @objc public func textDidChange() {
         
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
