@@ -126,7 +126,7 @@ public class VSTextField: UITextField {
             if case .noFormatting = formatting {
                 return super.text
             } else {
-                // Because the UIControl target action is called before NSNotificaion (from which we fire our custom formatting), we need to 
+                // Because the UIControl target action is called before NSNotificaion (from which we fire our custom formatting), we need to
                 // force update finalStringWithoutFormatting to get the latest text. Otherwise, the last character would be missing.
                 textDidChange()
                 return finalStringWithoutFormatting
@@ -163,21 +163,25 @@ public class VSTextField: UITextField {
     fileprivate var _textWithoutSecureBullets = ""
     
     fileprivate func registerForNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(VSTextField.textDidChange), name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"), object: self)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(VSTextField.textDidChange),
+                                               name: NSNotification.Name(rawValue: "UITextFieldTextDidChangeNotification"),
+                                               object: self)
     }
     
     @objc public func textDidChange() {
+        guard let superText = super.text else { return }
         
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
         
-        if super.text?.characters.count > _textWithoutSecureBullets.characters.count {
-            currentTextForFormatting = _textWithoutSecureBullets + super.text!.substring(from: super.text!.characters.index(super.text!.startIndex, offsetBy: _textWithoutSecureBullets.characters.count))
-        } else if super.text?.characters.count == 0 {
+        if superText.characters.count > _textWithoutSecureBullets.characters.count {
+            currentTextForFormatting = _textWithoutSecureBullets + superText.substring(from: superText.characters.index(superText.startIndex, offsetBy: _textWithoutSecureBullets.characters.count))
+        } else if superText.characters.count == 0 {
             _textWithoutSecureBullets = ""
             currentTextForFormatting = ""
         } else {
-            currentTextForFormatting = _textWithoutSecureBullets.substring(to: _textWithoutSecureBullets.characters.index(_textWithoutSecureBullets.startIndex, offsetBy: super.text!.characters.count))
+            currentTextForFormatting = _textWithoutSecureBullets.substring(to: _textWithoutSecureBullets.characters.index(_textWithoutSecureBullets.startIndex, offsetBy: superText.characters.count))
         }
         
         if formatting != .noFormatting && currentTextForFormatting.characters.count > 0 && formattingPattern.characters.count > 0 {
@@ -197,7 +201,9 @@ public class VSTextField: UITextField {
                 if formattingPattern.substring(with: formattingPatternRange) != String(replacementChar) {
                     finalText = finalText + formattingPattern.substring(with: formattingPatternRange)
                     finalSecureText = finalSecureText + formattingPattern.substring(with: formattingPatternRange)
+                
                 } else if tempString.characters.count > 0 {
+                
                     let pureStringRange = tempIndex ..< tempString.index(tempIndex, offsetBy: 1)
                     
                     finalText = finalText + tempString.substring(with: pureStringRange)
@@ -220,13 +226,17 @@ public class VSTextField: UITextField {
             }
             
             _textWithoutSecureBullets = finalText
-            super.text = _formatedSecureTextEntry ? finalSecureText : finalText
+            
+            let newText = _formatedSecureTextEntry ? finalSecureText : finalText
+            if newText != super.text {
+                super.text = _formatedSecureTextEntry ? finalSecureText : finalText
+            }
         }
         
         // Let's check if we have additional max length restrictions
         if maxLength > 0 {
-            if text.characters.count > maxLength {
-                super.text = text.substring(to: text.index(text.startIndex, offsetBy: maxLength))
+            if superText.characters.count > maxLength {
+                super.text = superText.substring(to: superText.index(superText.startIndex, offsetBy: maxLength))
                 _textWithoutSecureBullets = _textWithoutSecureBullets.substring(to: _textWithoutSecureBullets.characters.index(_textWithoutSecureBullets.startIndex, offsetBy: maxLength))
             }
         }
