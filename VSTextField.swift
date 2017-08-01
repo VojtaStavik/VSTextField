@@ -170,7 +170,7 @@ public class VSTextField: UITextField {
     }
     
     @objc public func textDidChange() {
-        guard let superText = super.text else { return }
+        var superText: String { return super.text ?? "" }
         
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
@@ -228,7 +228,7 @@ public class VSTextField: UITextField {
             _textWithoutSecureBullets = finalText
             
             let newText = _formatedSecureTextEntry ? finalSecureText : finalText
-            if newText != super.text {
+            if newText != superText {
                 super.text = _formatedSecureTextEntry ? finalSecureText : finalText
             }
         }
