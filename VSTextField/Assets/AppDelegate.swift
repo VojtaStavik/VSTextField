@@ -17,7 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     window = UIWindow()
     window?.makeKeyAndVisible()
-    window?.rootViewController = VSTextFieldExample()
+    
+    window?.rootViewController = UINavigationController(rootViewController: ExamplesListController())
     
     return true
   }

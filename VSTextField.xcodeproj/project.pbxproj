@@ -8,23 +8,48 @@
 
 /* Begin PBXBuildFile section */
 		E4152AA61FB3F8C400414578 /* VSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4152AA51FB3F8C400414578 /* VSTextField.swift */; };
+		E4152ABE1FB4034900414578 /* VSTextFieldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4152ABD1FB4034900414578 /* VSTextFieldUITests.swift */; };
+		E4B92E881FB406ED00269CD3 /* ExampleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6C1FB3F87500D45260 /* ExampleDetailController.swift */; };
+		E4B92E891FB406FD00269CD3 /* ExampleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6C1FB3F87500D45260 /* ExampleDetailController.swift */; };
+		E4B92E8A1FB4075400269CD3 /* VSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4152AA51FB3F8C400414578 /* VSTextField.swift */; };
+		E4B92E901FB4137F00269CD3 /* ExamplesListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B92E8F1FB4137F00269CD3 /* ExamplesListController.swift */; };
 		E4BECE6B1FB3F87500D45260 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6A1FB3F87500D45260 /* AppDelegate.swift */; };
-		E4BECE6D1FB3F87500D45260 /* VSTextFieldExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6C1FB3F87500D45260 /* VSTextFieldExample.swift */; };
 		E4BECE701FB3F87500D45260 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4BECE6E1FB3F87500D45260 /* Main.storyboard */; };
 		E4BECE721FB3F87500D45260 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4BECE711FB3F87500D45260 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E4152AC01FB4034900414578 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E4BECE5F1FB3F87500D45260 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E4BECE661FB3F87500D45260;
+			remoteInfo = VSTextField;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E4152AA51FB3F8C400414578 /* VSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VSTextField.swift; sourceTree = "<group>"; };
+		E4152ABB1FB4034900414578 /* VSTextFieldUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VSTextFieldUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4152ABD1FB4034900414578 /* VSTextFieldUITests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = VSTextFieldUITests.swift; sourceTree = "<group>"; tabWidth = 4; };
+		E4152ABF1FB4034900414578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4B92E8F1FB4137F00269CD3 /* ExamplesListController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ExamplesListController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		E4BECE671FB3F87500D45260 /* VSTextField.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VSTextField.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4BECE6A1FB3F87500D45260 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E4BECE6C1FB3F87500D45260 /* VSTextFieldExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSTextFieldExample.swift; sourceTree = "<group>"; };
+		E4BECE6C1FB3F87500D45260 /* ExampleDetailController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = ExampleDetailController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		E4BECE6F1FB3F87500D45260 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E4BECE711FB3F87500D45260 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4BECE761FB3F87500D45260 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E4152AB81FB4034800414578 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4BECE641FB3F87500D45260 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,12 +60,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E4152AA41FB3F8B500414578 /* Example */ = {
+		E4152AA41FB3F8B500414578 /* Examples */ = {
 			isa = PBXGroup;
 			children = (
-				E4BECE6C1FB3F87500D45260 /* VSTextFieldExample.swift */,
+				E4B92E8F1FB4137F00269CD3 /* ExamplesListController.swift */,
+				E4BECE6C1FB3F87500D45260 /* ExampleDetailController.swift */,
 			);
-			path = Example;
+			path = Examples;
 			sourceTree = "<group>";
 		};
 		E4152AA71FB3F8C900414578 /* Assets */ = {
@@ -54,10 +80,20 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		E4152ABC1FB4034900414578 /* VSTextFieldUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E4152ABD1FB4034900414578 /* VSTextFieldUITests.swift */,
+				E4152ABF1FB4034900414578 /* Info.plist */,
+			);
+			path = VSTextFieldUITests;
+			sourceTree = "<group>";
+		};
 		E4BECE5E1FB3F87500D45260 = {
 			isa = PBXGroup;
 			children = (
 				E4BECE691FB3F87500D45260 /* VSTextField */,
+				E4152ABC1FB4034900414578 /* VSTextFieldUITests */,
 				E4BECE681FB3F87500D45260 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -66,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				E4BECE671FB3F87500D45260 /* VSTextField.app */,
+				E4152ABB1FB4034900414578 /* VSTextFieldUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -74,7 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				E4152AA51FB3F8C400414578 /* VSTextField.swift */,
-				E4152AA41FB3F8B500414578 /* Example */,
+				E4152AA41FB3F8B500414578 /* Examples */,
 				E4152AA71FB3F8C900414578 /* Assets */,
 			);
 			path = VSTextField;
@@ -83,6 +120,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E4152ABA1FB4034800414578 /* VSTextFieldUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E4152AC21FB4034900414578 /* Build configuration list for PBXNativeTarget "VSTextFieldUITests" */;
+			buildPhases = (
+				E4152AB71FB4034800414578 /* Sources */,
+				E4152AB81FB4034800414578 /* Frameworks */,
+				E4152AB91FB4034800414578 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E4152AC11FB4034900414578 /* PBXTargetDependency */,
+			);
+			name = VSTextFieldUITests;
+			productName = VSTextFieldUITests;
+			productReference = E4152ABB1FB4034900414578 /* VSTextFieldUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		E4BECE661FB3F87500D45260 /* VSTextField */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4BECE791FB3F87500D45260 /* Build configuration list for PBXNativeTarget "VSTextField" */;
@@ -109,6 +164,11 @@
 				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0910;
 				TargetAttributes = {
+					E4152ABA1FB4034800414578 = {
+						CreatedOnToolsVersion = 9.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = E4BECE661FB3F87500D45260;
+					};
 					E4BECE661FB3F87500D45260 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
@@ -129,11 +189,19 @@
 			projectRoot = "";
 			targets = (
 				E4BECE661FB3F87500D45260 /* VSTextField */,
+				E4152ABA1FB4034800414578 /* VSTextFieldUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E4152AB91FB4034800414578 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4BECE651FB3F87500D45260 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -146,17 +214,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E4152AB71FB4034800414578 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4152ABE1FB4034900414578 /* VSTextFieldUITests.swift in Sources */,
+				E4B92E8A1FB4075400269CD3 /* VSTextField.swift in Sources */,
+				E4B92E881FB406ED00269CD3 /* ExampleDetailController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E4BECE631FB3F87500D45260 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4BECE6D1FB3F87500D45260 /* VSTextFieldExample.swift in Sources */,
 				E4152AA61FB3F8C400414578 /* VSTextField.swift in Sources */,
+				E4B92E891FB406FD00269CD3 /* ExampleDetailController.swift in Sources */,
+				E4B92E901FB4137F00269CD3 /* ExamplesListController.swift in Sources */,
 				E4BECE6B1FB3F87500D45260 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E4152AC11FB4034900414578 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E4BECE661FB3F87500D45260 /* VSTextField */;
+			targetProxy = E4152AC01FB4034900414578 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E4BECE6E1FB3F87500D45260 /* Main.storyboard */ = {
@@ -170,6 +257,34 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E4152AC31FB4034900414578 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = VSTextFieldUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.VSTextFieldUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VSTextField;
+			};
+			name = Debug;
+		};
+		E4152AC41FB4034900414578 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = VSTextFieldUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.VSTextFieldUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VSTextField;
+			};
+			name = Release;
+		};
 		E4BECE771FB3F87500D45260 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -308,6 +423,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E4152AC21FB4034900414578 /* Build configuration list for PBXNativeTarget "VSTextFieldUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4152AC31FB4034900414578 /* Debug */,
+				E4152AC41FB4034900414578 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E4BECE621FB3F87500D45260 /* Build configuration list for PBXProject "VSTextField" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
