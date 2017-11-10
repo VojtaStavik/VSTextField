@@ -76,11 +76,11 @@ public class VSTextField: UITextField {
             switch formatting {
                 
             case .socialSecurityNumber:
-                self.formattingPattern = "***-**–****"
+                self.formattingPattern = "***-**-****"
                 self.replacementChar = "*"
                 
             case .phoneNumber:
-                self.formattingPattern = "***-***–****"
+                self.formattingPattern = "***-***-****"
                 self.replacementChar = "*"
                 
             case .uuid:
