@@ -42,6 +42,7 @@ public class VSTextField: UITextField {
     public func setFormatting(_ formattingPattern: String, replacementChar: Character) {
         self.formattingPattern = formattingPattern
         self.replacementChar = replacementChar
+        self.formatting = .custom
     }
     
     /**
@@ -98,7 +99,6 @@ public class VSTextField: UITextField {
     public var formattingPattern: String = "" {
         didSet {
             self.maxLength = formattingPattern.characters.count
-            self.formatting = .custom
         }
     }
     
