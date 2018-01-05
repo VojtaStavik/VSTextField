@@ -53,7 +53,7 @@ public class VSTextField: UITextField {
      A character which will be replaced in formattingPattern by a number
      */
     public var secureTextReplacementChar: Character = "\u{25cf}"
-
+    
     /**
      True if input number is hexadecimal eg. UUID
      */
@@ -97,7 +97,7 @@ public class VSTextField: UITextField {
      */
     public var formattingPattern: String = "" {
         didSet {
-            self.maxLength = formattingPattern.characters.count
+            self.maxLength = formattingPattern.count
             self.formatting = .custom
         }
     }
@@ -154,7 +154,7 @@ public class VSTextField: UITextField {
     public var finalStringWithoutFormatting : String {
         return _textWithoutSecureBullets.keepOnlyDigits(isHexadecimal: isHexadecimal)
     }
-
+    
     // MARK: - INTERNAL
     fileprivate var _formatedSecureTextEntry = false
     
@@ -175,16 +175,16 @@ public class VSTextField: UITextField {
         // TODO: - Isn't there more elegant way how to do this?
         let currentTextForFormatting: String
         
-        if superText.characters.count > _textWithoutSecureBullets.characters.count {
-            currentTextForFormatting = _textWithoutSecureBullets + superText.substring(from: superText.characters.index(superText.startIndex, offsetBy: _textWithoutSecureBullets.characters.count))
-        } else if superText.characters.count == 0 {
+        if superText.count > _textWithoutSecureBullets.count {
+            currentTextForFormatting = _textWithoutSecureBullets + superText[superText.index(superText.startIndex, offsetBy: _textWithoutSecureBullets.count)...]
+        } else if superText.count == 0 {
             _textWithoutSecureBullets = ""
             currentTextForFormatting = ""
         } else {
-            currentTextForFormatting = _textWithoutSecureBullets.substring(to: _textWithoutSecureBullets.characters.index(_textWithoutSecureBullets.startIndex, offsetBy: superText.characters.count))
+            currentTextForFormatting = String(_textWithoutSecureBullets[..<_textWithoutSecureBullets.index(_textWithoutSecureBullets.startIndex, offsetBy: superText.count)])
         }
         
-        if formatting != .noFormatting && currentTextForFormatting.characters.count > 0 && formattingPattern.characters.count > 0 {
+        if formatting != .noFormatting && currentTextForFormatting.count > 0 && formattingPattern.count > 0 {
             let tempString = currentTextForFormatting.keepOnlyDigits(isHexadecimal: isHexadecimal)
             
             var finalText = ""
@@ -198,19 +198,19 @@ public class VSTextField: UITextField {
             while !stop {
                 let formattingPatternRange = formatterIndex ..< formattingPattern.index(formatterIndex, offsetBy: 1)
                 
-                if formattingPattern.substring(with: formattingPatternRange) != String(replacementChar) {
-                    finalText = finalText + formattingPattern.substring(with: formattingPatternRange)
-                    finalSecureText = finalSecureText + formattingPattern.substring(with: formattingPatternRange)
-                
-                } else if tempString.characters.count > 0 {
-                
+                if formattingPattern[formattingPatternRange] != String(replacementChar) {
+                    finalText = finalText + formattingPattern[formattingPatternRange]
+                    finalSecureText = finalSecureText + formattingPattern[formattingPatternRange]
+                    
+                } else if tempString.count > 0 {
+                    
                     let pureStringRange = tempIndex ..< tempString.index(tempIndex, offsetBy: 1)
                     
-                    finalText = finalText + tempString.substring(with: pureStringRange)
+                    finalText = finalText + tempString[pureStringRange]
                     
                     // we want the last number to be visible
                     if tempString.index(tempIndex, offsetBy: 1) == tempString.endIndex {
-                        finalSecureText = finalSecureText + tempString.substring(with: pureStringRange)
+                        finalSecureText = finalSecureText + tempString[pureStringRange]
                     } else {
                         finalSecureText = finalSecureText + String(secureTextReplacementChar)
                     }
@@ -235,9 +235,9 @@ public class VSTextField: UITextField {
         
         // Let's check if we have additional max length restrictions
         if maxLength > 0 {
-            if superText.characters.count > maxLength {
-                super.text = superText.substring(to: superText.index(superText.startIndex, offsetBy: maxLength))
-                _textWithoutSecureBullets = _textWithoutSecureBullets.substring(to: _textWithoutSecureBullets.characters.index(_textWithoutSecureBullets.startIndex, offsetBy: maxLength))
+            if superText.count > maxLength {
+                super.text = String(superText[..<superText.index(superText.startIndex, offsetBy: maxLength)])
+                _textWithoutSecureBullets = String(_textWithoutSecureBullets[..<_textWithoutSecureBullets.index(_textWithoutSecureBullets.startIndex, offsetBy: maxLength)])
             }
         }
     }
@@ -245,7 +245,7 @@ public class VSTextField: UITextField {
 
 
 extension String {
-
+    
     func keepOnlyDigits(isHexadecimal: Bool) -> String {
         let ucString = self.uppercased()
         let validCharacters = isHexadecimal ? "0123456789ABCDEF" : "0123456789"
@@ -258,7 +258,6 @@ extension String {
 
 
 // Helpers
-
 fileprivate func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (l?, r?):
@@ -278,5 +277,3 @@ fileprivate func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
         return rhs < lhs
     }
 }
-
-
