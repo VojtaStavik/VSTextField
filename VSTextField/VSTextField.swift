@@ -42,6 +42,7 @@ public class VSTextField: UITextField {
     public func setFormatting(_ formattingPattern: String, replacementChar: Character) {
         self.formattingPattern = formattingPattern
         self.replacementChar = replacementChar
+        self.formatting = .custom
     }
     
     /**
@@ -75,11 +76,11 @@ public class VSTextField: UITextField {
             switch formatting {
                 
             case .socialSecurityNumber:
-                self.formattingPattern = "***-**–****"
+                self.formattingPattern = "***-**-****"
                 self.replacementChar = "*"
                 
             case .phoneNumber:
-                self.formattingPattern = "***-***–****"
+                self.formattingPattern = "***-***-****"
                 self.replacementChar = "*"
                 
             case .uuid:
@@ -98,7 +99,6 @@ public class VSTextField: UITextField {
     public var formattingPattern: String = "" {
         didSet {
             self.maxLength = formattingPattern.count
-            self.formatting = .custom
         }
     }
     
@@ -197,8 +197,8 @@ public class VSTextField: UITextField {
             
             while !stop {
                 let formattingPatternRange = formatterIndex ..< formattingPattern.index(formatterIndex, offsetBy: 1)
-                
                 if formattingPattern[formattingPatternRange] != String(replacementChar) {
+                
                     finalText = finalText + formattingPattern[formattingPatternRange]
                     finalSecureText = finalSecureText + formattingPattern[formattingPatternRange]
                     
