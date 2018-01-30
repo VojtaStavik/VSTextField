@@ -24,7 +24,12 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    run_tests
+    run_tests(
+      workspace: "VSTextField.xcworkspace",
+      scheme: "VSTextFieldExampleApp",
+      clean: true,
+      devices: ["iPhone SE"]
+    )
   end
 
   desc "Submit a new Beta Build to Apple TestFlight"
