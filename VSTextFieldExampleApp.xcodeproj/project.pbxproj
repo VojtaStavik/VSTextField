@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E4152AA61FB3F8C400414578 /* VSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4152AA51FB3F8C400414578 /* VSTextField.swift */; };
+		A1BF0C5F2020BADF000475DB /* VSTextField.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BF0C5E2020B825000475DB /* VSTextField.framework */; };
+		A1BF0C602020BADF000475DB /* VSTextField.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A1BF0C5E2020B825000475DB /* VSTextField.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E4152ABE1FB4034900414578 /* VSTextFieldUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4152ABD1FB4034900414578 /* VSTextFieldUITests.swift */; };
 		E4B92E881FB406ED00269CD3 /* ExampleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6C1FB3F87500D45260 /* ExampleDetailController.swift */; };
 		E4B92E891FB406FD00269CD3 /* ExampleDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6C1FB3F87500D45260 /* ExampleDetailController.swift */; };
-		E4B92E8A1FB4075400269CD3 /* VSTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4152AA51FB3F8C400414578 /* VSTextField.swift */; };
 		E4B92E901FB4137F00269CD3 /* ExamplesListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B92E8F1FB4137F00269CD3 /* ExamplesListController.swift */; };
 		E4BECE6B1FB3F87500D45260 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4BECE6A1FB3F87500D45260 /* AppDelegate.swift */; };
 		E4BECE701FB3F87500D45260 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4BECE6E1FB3F87500D45260 /* Main.storyboard */; };
@@ -28,8 +28,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A1BF0C612020BADF000475DB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A1BF0C602020BADF000475DB /* VSTextField.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		E4152AA51FB3F8C400414578 /* VSTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VSTextField.swift; sourceTree = "<group>"; };
+		A1BF0C5E2020B825000475DB /* VSTextField.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = VSTextField.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4152ABB1FB4034900414578 /* VSTextFieldExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VSTextFieldExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4152ABD1FB4034900414578 /* VSTextFieldUITests.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = VSTextFieldUITests.swift; sourceTree = "<group>"; tabWidth = 4; };
 		E4152ABF1FB4034900414578 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,12 +68,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1BF0C5F2020BADF000475DB /* VSTextField.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A1BF0C5C2020B825000475DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A1BF0C5E2020B825000475DB /* VSTextField.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E4152AA41FB3F8B500414578 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +118,7 @@
 				E4BECE691FB3F87500D45260 /* VSTextFieldExampleApp */,
 				E4152ABC1FB4034900414578 /* VSTextFieldUITests */,
 				E4BECE681FB3F87500D45260 /* Products */,
+				A1BF0C5C2020B825000475DB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -110,7 +134,6 @@
 		E4BECE691FB3F87500D45260 /* VSTextFieldExampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				E4152AA51FB3F8C400414578 /* VSTextField.swift */,
 				E4152AA41FB3F8B500414578 /* Controllers */,
 				E4152AA71FB3F8C900414578 /* Assets */,
 			);
@@ -145,6 +168,7 @@
 				E4BECE631FB3F87500D45260 /* Sources */,
 				E4BECE641FB3F87500D45260 /* Frameworks */,
 				E4BECE651FB3F87500D45260 /* Resources */,
+				A1BF0C612020BADF000475DB /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -219,7 +243,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4152ABE1FB4034900414578 /* VSTextFieldUITests.swift in Sources */,
-				E4B92E8A1FB4075400269CD3 /* VSTextField.swift in Sources */,
 				E4B92E881FB406ED00269CD3 /* ExampleDetailController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -228,7 +251,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4152AA61FB3F8C400414578 /* VSTextField.swift in Sources */,
 				E4B92E891FB406FD00269CD3 /* ExampleDetailController.swift in Sources */,
 				E4B92E901FB4137F00269CD3 /* ExamplesListController.swift in Sources */,
 				E4BECE6B1FB3F87500D45260 /* AppDelegate.swift in Sources */,
