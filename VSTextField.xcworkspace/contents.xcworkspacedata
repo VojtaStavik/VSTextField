@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:VSTextField.xcodeproj">
+      location = "group:VSTextFieldExampleApp.xcodeproj">
    </FileRef>
 </Workspace>
