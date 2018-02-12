@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "VSTextField"
-  s.version      = "1.0.0"
+  s.version      = "0.0.1"
   s.summary      = "Easy text formatting."
   s.description  = <<-DESC
 Dead simple drop-in subclass of UITextField with super easy number formatting.
