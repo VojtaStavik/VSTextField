@@ -22,6 +22,23 @@ platform :ios do
     # cocoapods
   end
 
+  private_lane :update_plists do
+    sh "git fetch --tags"
+    tag = last_git_tag
+
+    increment_version_number(
+      version_number: "#{tag}",      # specify specific version number (optional, omitting it increments patch version number)
+      xcodeproj: "./VSTextField/VSTextField.xcodeproj"  # (optional, you must specify the path to your main Xcode project if it is not in the project root directory)
+    )
+
+    git_commit(
+      message: "[Bitrise 🚀️] Update plists to version #{get_version_number}. [skip ci]",
+      path: ["./VSTextField/VSTextField.xcodeproj", "./VSTextField/*.plist"]
+    )
+
+    push_to_git_remote
+  end
+
   desc "Runs all the tests"
   lane :test do
     run_tests(
@@ -32,15 +49,15 @@ platform :ios do
     )
   end
 
-  desc "Submit a new Beta Build to Apple TestFlight"
-  desc "This will also make sure the profile is up to date"
-  lane :beta do
-    # sync_code_signing(type: "appstore") # more information: https://codesigning.guide
-    build_app # more options available
-    upload_to_testflight
-
-    # sh "your_script.sh"
-    # You can also use other beta testing services here (run `fastlane actions`)
+  lane :carthage_build do
+    carthage(
+      command: "build",       # One of: build, bootstrap, update, archive. (default: bootstrap)
+      no_skip_current: true,     # Don't skip building the current project (only for frameworks)
+      verbose: false,   # Print xcodebuild output inline
+      platform: "iOS",  # Define which platform to build for (one of ‘all’, ‘Mac’, ‘iOS’, ‘watchOS’, ‘tvOS‘, or comma-separated values of the formers except for ‘all’)
+      configuration: "Release",   # Build configuration to use when building
+      cache_builds: true         # By default Carthage will rebuild a dependency regardless of whether its the same resolved version as before.
+    )
   end
 
   desc "Deploy a new version to the App Store"
