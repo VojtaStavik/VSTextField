@@ -7,8 +7,8 @@ Dead simple drop-in subclass of UITextField with super easy number formatting.
                    DESC
   s.homepage     = "http://vojtastavik.com"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author    = "Vojta Stavik"
+  s.author       = "Vojta Stavik"
   s.platform     = :ios, "9.3"
   s.source       = { :git => "https://github.com/VojtaStavik/VSTextField.git", :tag => "#{s.version}" }
-  s.source_files  = "VSTextField", "VSTextField/**/*.{h,swift}"
+  s.source_files = "VSTextField", "VSTextField/**/*.{h,swift}"
 end
