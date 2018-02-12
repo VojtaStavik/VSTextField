@@ -27,12 +27,12 @@ Runs all the tests
 ```
 fastlane ios carthage_build
 ```
-
-### ios release
+Build with carthage to guarantee it'll work with Carthage
+### ios bitrise
 ```
-fastlane ios release
+fastlane ios bitrise
 ```
-Deploy a new version to the App Store
+Call all lanes to release the framework on Carthage and Cocoapods
 
 ----
 
