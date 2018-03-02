@@ -1,0 +1,80 @@
+# Customize this file, documentation can be found here:
+# https://docs.fastlane.tools/actions/
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+min_fastlane_version("2.71.1")
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+  end
+
+  desc "Updates plists to the latest git tag"
+  private_lane :update_plists do
+    sh "git fetch --tags"
+    tag = last_git_tag
+
+    increment_version_number(
+      version_number: "#{tag}",      # specify specific version number (optional, omitting it increments patch version number)
+      xcodeproj: "./VSTextField/VSTextField.xcodeproj"  # (optional, you must specify the path to your main Xcode project if it is not in the project root directory)
+    )
+
+    git_commit(
+      message: "[Bitrise 🚀️] Update plists to version #{get_version_number}. [skip ci]",
+      path: ["./VSTextField/VSTextField.xcodeproj", "./VSTextField/*.plist"]
+    )
+
+    version_bump_podspec(path: "VSTextField.podspec", version_number: tag)
+    git_commit(
+      message: "[Bitrise 🚀️] Update podspec to version #{get_version_number}. [skip ci]",
+      path: ["./VSTextField.podspec"]
+    )
+  end
+
+  desc "Runs all the tests"
+  lane :test do
+    run_tests(
+      workspace: "VSTextField.xcworkspace",
+      scheme: "VSTextFieldExampleApp",
+      clean: true,
+      devices: ["iPhone SE"]
+    )
+  end
+
+  desc "Build with carthage to guarantee it'll work with Carthage"
+  lane :carthage_build do
+    carthage(
+      command: "build",       # One of: build, bootstrap, update, archive. (default: bootstrap)
+      no_skip_current: true,     # Don't skip building the current project (only for frameworks)
+      verbose: false,   # Print xcodebuild output inline
+      platform: "iOS",  # Define which platform to build for (one of ‘all’, ‘Mac’, ‘iOS’, ‘watchOS’, ‘tvOS‘, or comma-separated values of the formers except for ‘all’)
+      configuration: "Release",   # Build configuration to use when building
+      cache_builds: true         # By default Carthage will rebuild a dependency regardless of whether its the same resolved version as before.
+    )
+  end
+
+  desc "Call all lanes to release the framework on Carthage and Cocoapods"
+  lane :bitrise do
+    carthage_build
+    test
+    update_plists
+    push_to_git_remote
+    pod_push(path: "VSTextField.podspec" , allow_warnings: true, verbose: true)
+  end
+
+  after_all do |lane|
+  end
+
+  error do |lane, exception|
+  end
+end

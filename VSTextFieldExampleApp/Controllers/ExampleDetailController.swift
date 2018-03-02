@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import VSTextField
 
 final class ExampleDetailController: UIViewController {
     
